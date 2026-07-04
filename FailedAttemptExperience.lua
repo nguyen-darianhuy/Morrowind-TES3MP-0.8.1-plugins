@@ -6,9 +6,9 @@ FailedAttemptExperience.config = {
         Security = true,
         Alchemy = true,
         Enchant = true,
-        Armorer = true
+        Armorer = true,
         Speechcraft = true,
-        Mercantile = true,
+        Mercantile = true
     },
     progressGrant = {
         Security = 3,
