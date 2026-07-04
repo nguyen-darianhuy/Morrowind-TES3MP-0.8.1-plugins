@@ -3,10 +3,12 @@ local FailedAttemptExperience = {}
 FailedAttemptExperience.config = {
     debugChatGains = false,
     skillGrantEnabled = {
-        Speechcraft = true,
+        Security = true,
         Alchemy = true,
         Enchant = true,
         Armorer = true
+        Speechcraft = true,
+        Mercantile = true,
     },
     progressGrant = {
         Security = 3,
@@ -18,7 +20,6 @@ FailedAttemptExperience.config = {
     }
 }
 
--- Forward declaration so early helper functions can call the local implementation.
 local grantSkillProgress
 
 local function isLoggedIn(pid)
@@ -116,6 +117,10 @@ FailedAttemptExperience.OnObjectMiscellaneous = function(eventStatus, pid, cellD
     if eventStatus.validCustomHandlers == false then return end
     if not isLoggedIn(pid) then return end
 
+    if FailedAttemptExperience.config.skillGrantEnabled.Mercantile == false then
+        return
+    end
+
     local foundMerchantGoldChange = false
 
     for _, object in pairs(objects) do
@@ -149,6 +154,10 @@ FailedAttemptExperience.OnPlayerEquipment = function(eventStatus, pid, playerPac
     if not isLoggedIn(pid) then return end
     if playerPacket == nil or playerPacket.equipment == nil then return end
 
+    if FailedAttemptExperience.config.skillGrantEnabled.Security == false then
+        return
+    end
+
     --- If holding Security equipment, handle Security skill grants.
     for slot, item in pairs(playerPacket.equipment) do
         if slot == enumerations.equipment.CARRIED_RIGHT or slot == enumerations.equipment.CARRIED_LEFT then
@@ -165,9 +174,13 @@ FailedAttemptExperience.OnObjectDialogueChoice = function(eventStatus, pid, cell
     if eventStatus.validCustomHandlers == false then return end
     if not isLoggedIn(pid) then return end
 
+    if FailedAttemptExperience.config.skillGrantEnabled.Speechcraft == false then
+        return
+    end
+
     -- Treat opening the persuasion submenu itself as the trigger.
     for _, object in pairs(objects) do
-        if object.dialogueChoiceType == enumerations.dialogueChoice.PERSUASION and FailedAttemptExperience.config.skillGrantEnabled.Speechcraft then
+        if object.dialogueChoiceType == enumerations.dialogueChoice.PERSUASION then
             local grant = FailedAttemptExperience.config.progressGrant.Speechcraft or 0
 
             grantSkillProgress(pid, "Speechcraft", grant, "persuasion submenu opened")
