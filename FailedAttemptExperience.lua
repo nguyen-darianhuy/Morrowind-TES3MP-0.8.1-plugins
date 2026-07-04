@@ -1,7 +1,7 @@
 local FailedAttemptExperience = {}
 
 FailedAttemptExperience.config = {
-    debugChatGains = true,
+    debugChatGains = false,
     skillGrantEnabled = {
         Speechcraft = true,
         Alchemy = true,
