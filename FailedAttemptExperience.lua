@@ -1,3 +1,36 @@
+--[[
+	Anri's Failed Attempt Experience
+		version 1.0.0 (for TES3MP 0.8.1)
+	
+	DESCRIPTION:
+        - Grants XP upon failed actions for Security, Armorer, Enchant, Alchemy, Persuasion*
+        - Grants XP on any successful barter with a merchant (including non-bargains)
+
+    CONFIG:
+        - `skillGrantEnabled`: Enable/disable for certain skills.
+        - `progressGrant`: XP values to grant upon failed actions. This is not 1-1 with the ingame 0/100 progress meter, as far as I know.
+        - `debugChatGains`: Enable chat debug messages.
+    KNOWN ISSUES:
+        - Bonus XP can overflow past 100 progress without triggering a skillup. XP granted from successful actions will trigger a skillup as expected.
+        - Persuasion XP is granted upon opening the Persuasion submenu (I couldn't find an event on any Persuasion action/Disposition change)
+        - Security XP is granted upon equipping a lockpick. I can probably compare `item.charge`'s but that's a TODO for now
+	
+	INSTALLATION:
+		1) Place this file as `FailedAttemptExperience.lua` inside your TES3MP servers `server\scripts\custom` folder.
+		2) Open your `customScripts.lua` file in a text editor. 
+				(It can be found in `server\scripts` folder.)
+		3) Add the below line to your `customScripts.lua` file:
+				require("custom.FailedAttemptExperience")
+		4) Be sure there are no `--` symbols to the left of it, else it will not work.
+		5) Save `customScripts.lua` and restart your server.
+	
+	VERSION HISTORY:
+		1.0.0 (07/04/2024)		- Initial public release.
+		
+	My Public TES3MP 0.8.1 Scripts Github:
+        https://github.com/nguyen-darianhuy/Morrowind-TES3MP-0.8.1-plugins
+--]]
+
 local FailedAttemptExperience = {}
 
 FailedAttemptExperience.config = {
